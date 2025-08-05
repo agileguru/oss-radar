@@ -1,0 +1,41 @@
+spring:
+  profiles:
+      active: default
+  jpa:
+    open-in-view: false
+server:
+  servlet:
+    context-path: /radar
+  port: 2222  
+radar:
+  width: ${RADAR_WIDTH:1000}        
+  offset: ${RADAR_OFFSET:20}        
+---
+spring:
+  config:
+        activate:
+          on-profile: prod,dev,sit,uat,demo
+  datasource:
+    password: ${DB_PASSWORD:techradar}
+    username: ${DB_USERNAME:techradar}
+    url: ${DB_CONNURL:jdbc:postgresql://cluster.trusted.alacritysys.com:30324/techradar}
+  flyway:
+    enabled: true
+    baseline-on-migrate: true  
+    baseline-version: 0
+---
+spring:
+  config:
+      activate:
+        on-profile: default
+  datasource:
+    password: ${DB_PASSWORD:password}
+    username: ${DB_USERNAME:sa}
+    url:  ${DB_CONNURL:jdbc:h2:mem:testdb}
+  h2:
+    console:
+      enabled: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true  
+    baseline-version: 0
