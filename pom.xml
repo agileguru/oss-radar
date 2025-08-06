@@ -11,8 +11,8 @@
     <groupId>com.alacritysys.apps</groupId>
     <artifactId>oss-radar</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Modern Tech Radar</name>
-    <description>Modern Tech Radar</description>
+    <name>Modern OSS Tech Radar</name>
+    <description>Modern OSS Tech Radar</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
@@ -21,14 +21,20 @@
         <org.webjars.bootstrap.version>5.3.7</org.webjars.bootstrap.version>
         <org.webjars.jquery.version>3.7.1</org.webjars.jquery.version>
         <org.webjars.font-awesome.version>6.7.2</org.webjars.font-awesome.version>
-        <app.base.image>${docker.base.name}/polygot:main</app.base.image>
+        <app.base.image>openjdk:21-jdk</app.base.image>
+        <jacoco.version>0.8.13</jacoco.version>
+        <docker.base.name>us-central1-docker.pkg.dev/devops-353009/devops-docker</docker.base.name>
         <app.image>${docker.base.name}/${project.artifactId}</app.image>
         <app.location>/app</app.location>
-        <app.artifact>${project.artifactId}-${project.version}.jar</app.artifact>
-        <app.cmd>java -jar ${app.artifact}</app.cmd>
+        <app.artifact>${project.build.finalName}.jar</app.artifact>
+        <app.start.cmd>java,-jar,${app.location}/${app.artifact}</app.start.cmd>
         <app.port>8080</app.port>
+        <cucumber.version>5.9.0</cucumber.version>
         <cucumber.json>cucumber.json</cucumber.json>
+        <jib.version>3.4.6</jib.version>
+        <jib.layer.filter.version>0.2.0</jib.layer.filter.version>
         <project.group>${project.groupId}</project.group>
+        <sonar.coverage.exclusions>src/main/java/com/alacritysys/apps/oss/radar/RadarApplication.java</sonar.coverage.exclusions>
     </properties>
     <developers>
         <developer>
@@ -44,7 +50,7 @@
     </developers>
     <dependencyManagement>
         <dependencies>
-             <dependency>
+            <dependency>
                 <groupId>org.webjars</groupId>
                 <artifactId>bootstrap</artifactId>
                 <version>${org.webjars.bootstrap.version}</version>
@@ -156,6 +162,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -203,6 +210,7 @@
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
+                <version>${cucumber.version}</version>
                 <configuration>
                     <skip>true</skip>
                     <inputDirectory>${project.build.directory}</inputDirectory>
@@ -210,6 +218,80 @@
                         <param>${cucumber.json}</param>
                     </jsonFiles>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-layer-filter-extension-maven</artifactId>
+                        <version>${jib.layer.filter.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <to>
+                        <image>${app.image}</image>
+                        <tags>
+                            <tag>latest</tag>
+                            <tag>${project.version}</tag>
+                            <tag>${git.branch}</tag>
+                        </tags>
+                    </to>
+                    <from>
+                        <image>${app.base.image}</image>
+                    </from>
+                    <container>
+                        <entrypoint>${app.start.cmd}</entrypoint>
+                        <ports>
+                            <port>${app.port}</port>
+                        </ports>
+                    </container>
+                    <extraDirectories>
+                        <paths>
+                            <path>
+                                <from>target/</from>
+                                <includes>${app.artifact}</includes>
+                                <into>/app</into>
+                            </path>
+                        </paths>
+                    </extraDirectories>
+                    <pluginExtensions>
+                        <pluginExtension>
+                            <implementation>com.google.cloud.tools.jib.maven.extension.layerfilter.JibLayerFilterExtension</implementation>
+                            <configuration implementation="com.google.cloud.tools.jib.maven.extension.layerfilter.Configuration">
+                                <filters>
+                                    <filter>
+                                        <!-- exclude all jib layers, which is basically anything in /app -->
+                                        <glob>/app/**</glob>
+                                    </filter>
+                                    <filter>
+                                        <!-- this is our fat jar, this should be kept by adding it into its own layer -->
+                                        <glob>/app/${project.build.finalName}.jar</glob>
+                                        <toLayer>jib-custom-fatJar</toLayer>
+                                    </filter>
+                                </filters>
+                            </configuration>
+                        </pluginExtension>
+                    </pluginExtensions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>build-image-local</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>dockerBuild</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>build-and-push</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
