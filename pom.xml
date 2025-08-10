@@ -29,7 +29,7 @@
         <app.location>/app</app.location>
         <app.artifact>${project.build.finalName}.jar</app.artifact>
         <app.start.cmd>java,-jar,${app.location}/${app.artifact}</app.start.cmd>
-        <app.port>8080</app.port>
+        <app.port>2222</app.port>
         <cucumber.version>5.9.0</cucumber.version>
         <cucumber.json>cucumber.json</cucumber.json>
         <jib.version>3.4.6</jib.version>
