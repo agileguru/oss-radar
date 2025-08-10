@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS category (
+	id INT GENERATED ALWAYS AS IDENTITY,
+	name VARCHAR(250) NOT NULL,
+	description VARCHAR(250) NOT NULL,
+	url VARCHAR(250),
+	primary key (id)
+);

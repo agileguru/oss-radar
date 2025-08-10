@@ -21,6 +21,7 @@
         <org.webjars.bootstrap.version>5.3.7</org.webjars.bootstrap.version>
         <org.webjars.jquery.version>3.7.1</org.webjars.jquery.version>
         <org.webjars.font-awesome.version>6.7.2</org.webjars.font-awesome.version>
+        <guava-version>33.4.8-jre</guava-version>
         <app.base.image>openjdk:21-jdk</app.base.image>
         <jacoco.version>0.8.13</jacoco.version>
         <docker.base.name>us-central1-docker.pkg.dev/devops-353009/devops-docker</docker.base.name>
@@ -119,6 +120,11 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>com.google.guava</groupId>
+        	<artifactId>guava</artifactId>
+        	<version>${guava-version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -295,16 +301,4 @@
             </plugin>
         </plugins>
     </build>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </reporting>
 </project>

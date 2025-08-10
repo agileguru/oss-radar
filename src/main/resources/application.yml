@@ -18,7 +18,7 @@ spring:
   datasource:
     password: ${DB_PASSWORD:techradar}
     username: ${DB_USERNAME:techradar}
-    url: ${DB_CONNURL:jdbc:postgresql://cluster.trusted.alacritysys.com:30324/techradar}
+    url: ${DB_CONNURL:jdbc:postgresql://invalidahost:5432/techradar}
   flyway:
     enabled: true
     baseline-on-migrate: true  

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/default}">
+
+<head>
+    <title>Radar</title>
+</head>
+
+<body>
+    <div layout:fragment="content" class="container-fluid">
+       <div class="row h-100 justify-content-center align-items-center radar_panel">
+        <div class="bg-overlay" >
+            <div class="col-sm-12">
+                <svg class="mx-auto radar-viewport" th:width="${data.viewWidth}" th:height="${data.viewWidth}">
+                    <!-- Circles -->
+                    <circle th:each="radar: ${data.circles}" th:id="${radar.value.name}" th:cx="${radar.value.circle.center.x}" th:cy="${radar.value.circle.center.y}" 
+                    th:r="${radar.value.circle.radius.value}" th:class="${radar.value.name}" stroke="black"/>
+
+                    <!-- Lines -->
+                    <line th:x1="${data.viewWidth / 2 }" th:y1="${data.padding}" th:x2="${data.viewWidth / 2 }" th:y2="${data.viewWidth - data.padding}" stroke="black" />
+                    <line th:x1="${data.padding}" th:y1="${data.viewWidth / 2 }" th:x2="${data.viewWidth - data.padding}" th:y2="${data.viewWidth / 2}" stroke="black" />
+
+                    <!-- Circle Labels -->
+                    <text th:each="radar, status: ${data.circles}" th:x="${ (data.padding * 3) + ( status.index * ( data.viewWidth / ( 2 * data.totalCircles ) ))}" 
+                    th:y="${(data.viewWidth / 2) - data.padding}" th:class="'text_' + ${radar.value.name}" th:style="'font-size: ' + ${data.padding * 2} + 'px;'" th:text="${radar.value.name}"/>
+                    <text th:each="radar, status: ${data.circles}" th:x="${ (data.padding * 2 ) + data.viewWidth - (data.viewWidth / ( data.totalCircles * 2 )) - ( (data.viewWidth / ( data.totalCircles * 2 )) * status.index  ) }"
+                    th:y="${(data.viewWidth / 2) - data.padding}" th:class="'text_' + ${radar.value.name}" th:style="'font-size: ' + ${data.padding * 2} + 'px;'" th:text="${radar.value.name}"/>
+
+                    <th:block th:each="bucket, status: ${data.buckets}">
+                        <th:block th:each="item, itemStatus: ${bucket.value.items}">
+                            <a th:href="'#' + ${item.id}" th:target="${item.bucketItemName}">
+                                <title th:text="${item.bucketItemName} + ' : ' + ${item.bucketItemDesc}"/>
+                                <circle th:cx="${item.positionX}"
+                                        th:cy="${item.positionY}"
+                                        th:r="${data.padding}" th:class="'item_bucket_' + ${bucket.value.id}" 
+                                        th:id="'item_circle_' + ${item.id}" stroke="black">
+                                </circle>				
+                                <text th:x="${item.positionX}" th:y="${item.positionY}" th:style="'font-size: ' + ${ data.padding * 1.5 } + 'px;'"
+                                    th:id="'item_text_' + ${item.id}" th:text-anchor="middle" th:class="'item_quad_' + ${ status.index + 1 }"
+                                    th:dy=".3em" th:text="${item.id}"/>
+					        </a>
+                        </th:block>
+                    </th:block>
+                </svg>
+            </div>
+            <br/><br/>
+            <th:block th:each="bucket, status: ${data.buckets}">
+                <div th:class="col-12" th:title="${bucket.value.bucketDesc}">
+                    <span th:class="'item_bucket_' + ${status.index + 1}" th:text="${bucket.value.bucketName}" th:if="${ #strings.isEmpty(bucket.value.bucketLink) }" />
+                    <span th:class="'item_bucket_' + ${status.index + 1}" th:if="${ #strings.isEmpty(bucket.value.bucketLink) == false}" ><a th:href="${bucket.value.bucketLink}" target="_blank" th:text="${bucket.value.bucketName}"/></span><hr/>
+                    <div th:class="'item_bucket_' + ${status.index +1}">
+                        <ul>
+                            <th:block th:each="item, itemStatus: ${bucket.value.items}">
+                                <li><a th:href="'#' + ${item.id}" th:title="${item.bucketItemDesc}" class="text-decoration-none hover-underline" ><svg th:style="'width:' + ${ data.padding * 2 } + 'px; height:' + ${ data.padding * 2 } + 'px; margin-right: 5px;'"><circle th:cx="${data.padding}" th:cy="${data.padding}" th:r="${ data.padding}" 
+                                                    th:class="'item_bucket_' + ${bucket.value.id}" th:id="'item_circle_' + ${item.id}" stroke="black"/>
+                                                <text th:x="${data.padding}" th:y="${data.padding}" th:style="'font-size: ' + ${ data.padding * 1.5 } + 'px;'" 
+                                                        th:id="'item_text_' + ${item.id}" text-anchor="middle" th:class="'quad_items item_quad_' + ${ status.index + 1 }"
+                                                        dy=".3em" th:text="${item.id}"/></svg><span th:class="'quad_items ' + ${item.bucketItemStatus}" 
+                                                        th:text="${item.bucketItemName} + ' ( '+  ${item.bucketItemStatus} + ' )'" /></a>
+                                </li>
+                            </th:block>
+                        </ul>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </div>
+    <br/><br/>
+    <hr/>
+    <br/><br/>
+        <table class="table table-bordered border-dark">
+            <thead class="thead-dark">
+                <tr>
+                    <th style="white-space: nowrap">Assesment Date</th>
+                    <th>Item</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <th:block th:each="bucket, status: ${data.buckets}">
+                <th:block th:each="item, itemStatus: ${bucket.value.items}">
+                    <tr >
+                        <td> <span th:text="${ #dates.format( item.bucketItemStatusDate ,'dd-MMM-yyyy') }" th:class="${item.bucketItemStatus}" /> </td>
+                        <td style="white-space: nowrap"> <a th:href="${item.bucketItemUrl}" th:target="${item.bucketItemName}" th:id="${item.id}"
+                                th:title="${item.bucketItemDesc}" class="text-decoration-none hover-underline">
+                                <span th:text="'(' + ${item.id} + ')'" th:class="${item.bucketItemStatus}"/>
+                                <span th:text="${item.bucketItemName}" th:class="${item.bucketItemStatus}"/> </a></td>
+                        <td> <span th:text="${item.bucketItemDesc}" th:class="${item.bucketItemStatus}" /> </td>        
+                        <td> <span th:text="${item.bucketItemStatus}" th:class="${item.bucketItemStatus}" /> </td>
+                        <td style="white-space: nowrap"> <span th:text="${bucket.value.bucketName}" th:class="${item.bucketItemStatus}"/> </td>
+                    <tr>
+                </th:block>
+            </th:block>
+        </table>
+    <br/><br/>
+    <hr/>
+</body>
+
+</html>

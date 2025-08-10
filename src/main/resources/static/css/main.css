@@ -1,0 +1,177 @@
+body {
+	padding-top: 5rem;
+	background: #ffffff;
+}
+
+h1 {
+	font-size: 2rem;
+	color: maroon;
+}
+
+h2 {
+	font-size: 2rem;
+	color: blue;
+}
+
+.bg-overlay {
+	position:relative;
+	font-weight: bold;
+}
+
+.radar-viewport {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+
+.Adopt {
+	fill:#228B22;
+	color:#228B22;
+	font-size: 15px;
+	font-family: Arial;
+}
+.Trial {
+	fill:#ffcc00;
+	color:#ffcc00;
+	font-size: 15px;
+	font-family: Arial;
+}
+.Assess {
+	fill:#0066ff;
+	color:#0066ff;
+	font-size: 15px;
+	font-family: Arial;
+}
+.Hold {
+	fill:orange;
+	color:orange;
+	font-size: 15px;
+	font-family: Arial;
+	text-decoration: none;
+}
+
+.text_Adopt {
+	font-family: Arial;
+	fill:#ffffff;
+}
+.text_Trial {
+	font-family: Arial;
+}
+.text_Assess {
+	font-family: Arial;
+	fill:#ffffff;
+}
+.text_Hold {
+	font-family: Arial;
+}
+.item_quad_1 {
+	font-family: Arial;
+	fill:white;
+}
+.item_quad_2 {
+	font-family: Arial;
+	fill:white;
+}
+.item_quad_3 {
+	font-family: Arial;
+	fill:white;
+}
+.item_quad_4 {
+	font-family: Arial;
+	fill:white;
+}
+.quad_0 {
+  position:absolute;
+  top:5px;
+  left:5px;
+  height: 50%;
+  padding: 10px;
+  white-space: nowrap;
+}
+.quad_1 {
+  position:absolute;
+  top:5px;
+  right:5px;
+  text-align: right;
+  height: 50%;
+  padding: 10px;
+  white-space: nowrap;
+}
+.quad_2 {
+  position:absolute;
+  top:50%;
+  left:5px;
+  height: 50%;
+  padding: 10px;
+  white-space: nowrap;
+}
+.quad_3 {
+  position:absolute;
+  top:50%;
+  right:5px;
+  text-align: right;
+  height: 50%;
+  padding: 10px;
+  white-space: nowrap;
+}
+
+.quad_items {
+	background-color: #ffffff;
+}
+
+.item_bucket_1 {
+	fill:purple;
+	font-size: x-large;
+}
+
+.item_bucket_1 li {
+	text-align: left;
+	list-style: none;
+}
+
+.item_bucket_2 {
+	fill:purple;
+	font-size: x-large;
+}
+
+.item_bucket_2 li {
+	text-align: left;
+	list-style: none;
+}
+
+.item_bucket_3 {
+	fill:purple;
+	font-size: x-large;
+}
+
+.item_bucket_3 li {
+	text-align: left;
+	list-style: none;
+}
+
+.item_bucket_4 {
+	fill:purple;
+	font-size: x-large;
+}
+
+.item_bucket_4 li {
+	text-align: left;
+	list-style: none;
+}
+
+.table-bordered span {
+	font-size: large;
+	font-weight: bold;
+}
+
+.table-bordered th {
+	font-size: large;
+	background: #000;
+	color: #ffffff;
+}

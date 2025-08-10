@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>App</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/footer-navbar.css"  th:href="@{/css/footer-navbar.css}" />    
+    <link rel="stylesheet" href="../../static/css/main.css"  th:href="@{/css/main.css}" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid px-3">
+                <a class="navbar-brand" href="/" th:href="@{/}">Radar ( Desktop ) </a>
+                <a class="navbar-brand" href="/" th:href="@{/mobile}">Radar ( Mobile )</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Other Portals</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+                                    <li><a class="dropdown-item" href="https://google.com/">Google.com</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+            </div>    
+        </nav>
+    </header>
+    <main role="main" class="container-fluid">
+            <div class="container-fluid" layout:fragment="content">OSS RADAR</div>
+    </main>
+    <footer class="container-fluid footer bg-dark">
+        <div class="container-fluid px-3">
+             <div class="small m-0 text-white">Copyright &copy; Alacrity Integrated 2025</div>
+        </div>
+    </footer>    
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>
