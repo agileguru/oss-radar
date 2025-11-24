@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.5</version>
+        <version>3.5.8</version>
     </parent>
     <groupId>com.alacritysys.apps</groupId>
     <artifactId>oss-radar</artifactId>
@@ -22,7 +22,7 @@
         <org.webjars.jquery.version>3.7.1</org.webjars.jquery.version>
         <org.webjars.font-awesome.version>6.7.2</org.webjars.font-awesome.version>
         <guava-version>33.4.8-jre</guava-version>
-        <app.base.image>openjdk:21-jdk</app.base.image>
+        <app.base.image>eclipse-temurin:25.0.1_8-jdk-ubi10-minimal</app.base.image>
         <jacoco.version>0.8.13</jacoco.version>
         <docker.base.name>us-central1-docker.pkg.dev/devops-353009/devops-docker</docker.base.name>
         <app.image>${docker.base.name}/${project.artifactId}</app.image>
@@ -130,9 +130,9 @@
             <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
         <dependency>
-        	<groupId>com.google.guava</groupId>
-        	<artifactId>guava</artifactId>
-        	<version>${guava-version}</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava-version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -273,15 +273,19 @@
                     </extraDirectories>
                     <pluginExtensions>
                         <pluginExtension>
-                            <implementation>com.google.cloud.tools.jib.maven.extension.layerfilter.JibLayerFilterExtension</implementation>
-                            <configuration implementation="com.google.cloud.tools.jib.maven.extension.layerfilter.Configuration">
+                            <implementation>
+                                com.google.cloud.tools.jib.maven.extension.layerfilter.JibLayerFilterExtension</implementation>
+                            <configuration
+                                implementation="com.google.cloud.tools.jib.maven.extension.layerfilter.Configuration">
                                 <filters>
                                     <filter>
-                                        <!-- exclude all jib layers, which is basically anything in /app -->
+                                        <!-- exclude all jib layers, which is basically anything in
+                                        /app -->
                                         <glob>/app/**</glob>
                                     </filter>
                                     <filter>
-                                        <!-- this is our fat jar, this should be kept by adding it into its own layer -->
+                                        <!-- this is our fat jar, this should be kept by adding it
+                                        into its own layer -->
                                         <glob>/app/${project.build.finalName}.jar</glob>
                                         <toLayer>jib-custom-fatJar</toLayer>
                                     </filter>
