@@ -1,21 +1,14 @@
 package com.alacritysys.apps.oss.radar.web.filters;
 
-import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.http.HttpStatus;
+import org.springframework.test.web.servlet.client.RestTestClient;
 
 import com.alacritysys.apps.oss.radar.ApplicationConstants;
 import com.alacritysys.apps.oss.radar.RadarApplication;
-
-import io.restassured.RestAssured;
-import io.restassured.response.ValidatableResponse;
-import io.restassured.specification.ResponseSpecification;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT, classes = RadarApplication.class)
 class UserInsightFilterTest {
@@ -26,28 +19,24 @@ class UserInsightFilterTest {
 	@Value("${server.servlet.context-path}")
 	private String contextPath;
 
+	private RestTestClient restTestClient;
+
 	@BeforeEach
 	void setUp() {
-		RestAssured.baseURI = "http://localhost:" + port;
-		RestAssured.basePath = contextPath;
-	}
-
-	@Test
-	void testSetUp() {
-		assertThat(this.port).isNotZero();
-		assertThat(this.contextPath).isNotNull().isNotBlank();
+		if ( restTestClient != null ) return;
+		restTestClient = RestTestClient.bindToServer().baseUrl( "http://localhost:" + port + contextPath).build();
 	}
 
 	@Test
 	void testLogChangesOnDebugParam() {
-		ResponseSpecification statusCode = given().queryParam("debug", "on").then().statusCode(HttpStatus.OK.value());
-		assertThat(statusCode).isNotNull();
+		restTestClient.get().uri(uriBuilder -> uriBuilder.path("/").queryParam("debug", "on").build()).exchange().expectStatus()
+				.isOk();
 	}
 
 	@Test
 	void testNoLogChangesOnMissingDebugParam() {
-		ValidatableResponse statusCode = given().get(ApplicationConstants.URI_MAPPING_GET_ALL_BUCKETS).then().statusCode(HttpStatus.OK.value());
-		assertThat(statusCode).isNotNull();
+		restTestClient.get().uri(ApplicationConstants.URI_MAPPING_GET_ALL_BUCKETS)
+				.exchange().expectStatus().isOk();
 	}
 
 }
