@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.alacritysys.apps</groupId>
     <artifactId>oss-radar</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>Modern OSS Tech Radar</name>
     <description>Modern OSS Tech Radar</description>
     <properties>
