@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.2</version>
     </parent>
     <groupId>com.alacritysys.apps</groupId>
     <artifactId>oss-radar</artifactId>
@@ -18,19 +18,19 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <java.version>21</java.version>
-        <org.webjars.bootstrap.version>5.3.7</org.webjars.bootstrap.version>
+        <org.webjars.bootstrap.version>5.3.8</org.webjars.bootstrap.version>
         <org.webjars.jquery.version>3.7.1</org.webjars.jquery.version>
-        <org.webjars.font-awesome.version>6.7.2</org.webjars.font-awesome.version>
+        <org.webjars.font-awesome.version>7.1.0</org.webjars.font-awesome.version>
         <guava-version>33.4.8-jre</guava-version>
         <app.base.image>eclipse-temurin:25.0.1_8-jdk-ubi10-minimal</app.base.image>
-        <jacoco.version>0.8.13</jacoco.version>
+        <jacoco.version>0.8.14</jacoco.version>
         <docker.base.name>us-central1-docker.pkg.dev/devops-353009/devops-docker</docker.base.name>
         <app.image>${docker.base.name}/${project.artifactId}</app.image>
         <app.location>/app</app.location>
         <app.artifact>${project.build.finalName}.jar</app.artifact>
         <app.start.cmd>java,-jar,${app.location}/${app.artifact}</app.start.cmd>
         <app.port>2222</app.port>
-        <cucumber.version>5.9.0</cucumber.version>
+        <cucumber.version>5.10.2</cucumber.version>
         <cucumber.json>cucumber.json</cucumber.json>
         <jib.version>3.4.6</jib.version>
         <jib.layer.filter.version>0.2.0</jib.layer.filter.version>
