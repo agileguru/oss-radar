@@ -6,11 +6,11 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.2</version>
+        <version>4.0.6</version>
     </parent>
     <groupId>com.alacritysys.apps</groupId>
     <artifactId>oss-radar</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <name>Modern OSS Tech Radar</name>
     <description>Modern OSS Tech Radar</description>
     <properties>
@@ -32,10 +32,11 @@
         <app.port>2222</app.port>
         <cucumber.version>5.10.2</cucumber.version>
         <cucumber.json>cucumber.json</cucumber.json>
-        <jib.version>3.4.6</jib.version>
+        <jib.version>3.5.1</jib.version>
         <jib.layer.filter.version>0.2.0</jib.layer.filter.version>
         <project.group>${project.groupId}</project.group>
-        <sonar.coverage.exclusions>src/main/java/com/alacritysys/apps/oss/radar/RadarApplication.java</sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>
+            src/main/java/com/alacritysys/apps/oss/radar/RadarApplication.java</sonar.coverage.exclusions>
     </properties>
     <developers>
         <developer>
